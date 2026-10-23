@@ -11,7 +11,8 @@ import {
   Heart,
   ShieldCheck,
   Sparkles,
-  Globe
+  Globe,
+  BarChart3
 } from 'lucide-react';
 import { MOROCCO_CITIES, SearchSuggestion, searchMoroccoLocations } from '../../data/moroccoCities';
 import { useLanguage } from '../../i18n/LanguageContext';
@@ -25,6 +26,7 @@ interface HeaderProps {
   onOpenPublish: () => void;
   activeListingCount: number;
   onOpenAdmin?: () => void;
+  onOpenPilotAnalytics?: () => void;
   isPhoneVerified?: boolean;
   onOpenVerification?: () => void;
 }
@@ -38,6 +40,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenPublish,
   activeListingCount,
   onOpenAdmin,
+  onOpenPilotAnalytics,
   isPhoneVerified = false,
   onOpenVerification,
 }) => {
@@ -273,6 +276,18 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
               <span className="hidden xl:inline">Modération</span>
+            </button>
+          )}
+
+          {/* Pilot Launch Analytics Button */}
+          {onOpenPilotAnalytics && (
+            <button
+              onClick={onOpenPilotAnalytics}
+              className="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-2xs"
+              title="Statistiques du pilote Benguerir & Casablanca"
+            >
+              <BarChart3 className="w-3.5 h-3.5 text-emerald-600" />
+              <span className="hidden xl:inline">Pilote</span>
             </button>
           )}
 

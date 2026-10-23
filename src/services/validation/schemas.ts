@@ -70,7 +70,7 @@ export const listingCreationSchema = z.object({
     .max(10, 'Maximum 10 photos par annonce'),
   advertiser_role: z.enum(['owner', 'flatmate', 'authorized_representative']),
   certified_no_brokerage: z.literal(true, {
-    errorMap: () => ({ message: 'Vous devez certifier sur l\'honneur l\'absence de frais de semsar.' }),
+    message: 'Vous devez certifier sur l\'honneur l\'absence de frais de semsar.',
   }),
 });
 

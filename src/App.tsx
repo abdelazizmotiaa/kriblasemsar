@@ -23,6 +23,7 @@ import { PhoneVerificationModal } from './components/Modals/PhoneVerificationMod
 import { SemsarReportModal } from './components/Modals/SemsarReportModal';
 import { AdminModerationDashboard } from './components/Admin/AdminModerationDashboard';
 import { PwaInstallBanner } from './components/Navigation/PwaInstallBanner';
+import { PilotAnalyticsDashboard } from './components/Pilot/PilotAnalyticsDashboard';
 
 export const App: React.FC = () => {
   // Master State with LocalStorage Persistence
@@ -68,6 +69,7 @@ export const App: React.FC = () => {
   const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
   const [isPhoneVerificationModalOpen, setIsPhoneVerificationModalOpen] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const [isPilotAnalyticsOpen, setIsPilotAnalyticsOpen] = useState(false);
   const [reportingListingId, setReportingListingId] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -305,6 +307,7 @@ export const App: React.FC = () => {
         onOpenPublish={() => setIsPublishModalOpen(true)}
         activeListingCount={filteredListings.length}
         onOpenAdmin={() => setIsAdminOpen(true)}
+        onOpenPilotAnalytics={() => setIsPilotAnalyticsOpen(true)}
         isPhoneVerified={userSession.isPhoneVerified}
         onOpenVerification={() => setIsPhoneVerificationModalOpen(true)}
       />
@@ -545,6 +548,13 @@ export const App: React.FC = () => {
         onSuspendUser={(userId, reason) => {
           showToast(`Utilisateur ${userId} suspendu pour : ${reason}`);
         }}
+      />
+
+      {/* Pilot Launch Analytics Dashboard (Benguerir & Casablanca) */}
+      <PilotAnalyticsDashboard
+        isOpen={isPilotAnalyticsOpen}
+        onClose={() => setIsPilotAnalyticsOpen(false)}
+        listings={listings}
       />
 
       {/* PWA Mobile Installation Prompt */}
