@@ -389,7 +389,7 @@ export const AdminModerationDashboard: React.FC<AdminDashboardProps> = ({
                   <div className="px-4 py-3 flex items-center justify-between">
                     <div>
                       <span className="font-bold text-slate-900">[AUTH_OTP_SENT]</span>{' '}
-                      <span className="text-slate-600">WhatsApp OTP délivré avec succès vers +212671581167</span>
+                      <span className="text-slate-600">WhatsApp OTP délivré avec succès vers +212661XXXXXX</span>
                     </div>
                     <span className="text-slate-400">Il y a 4 min</span>
                   </div>
