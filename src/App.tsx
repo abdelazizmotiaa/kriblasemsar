@@ -19,6 +19,8 @@ import { InteractiveMap } from './components/Map/InteractiveMap';
 import { ListingDetailModal } from './components/Modals/ListingDetailModal';
 import { CallConditionsModal } from './components/Modals/CallConditionsModal';
 import { PublishWizardModal } from './components/Modals/PublishWizardModal';
+import { PhoneVerificationModal } from './components/Modals/PhoneVerificationModal';
+import { SemsarReportModal } from './components/Modals/SemsarReportModal';
 
 export const App: React.FC = () => {
   // Master State with LocalStorage Persistence
@@ -59,10 +61,29 @@ export const App: React.FC = () => {
     timestamp: number;
   } | null>(null);
 
-  // Modals state
+  // Modals & Verification state
   const [callModalListing, setCallModalListing] = useState<Listing | null>(null);
   const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
+  const [isPhoneVerificationModalOpen, setIsPhoneVerificationModalOpen] = useState(false);
+  const [reportingListingId, setReportingListingId] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // Authenticated user state with Moroccan phone verification
+  const [userSession, setUserSession] = useState<{
+    isAuthenticated: boolean;
+    isPhoneVerified: boolean;
+    phoneE164?: string;
+    full_name?: string;
+  }>(() => {
+    try {
+      const saved = localStorage.getItem('kriblasemsar_user_session');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return {
+      isAuthenticated: true,
+      isPhoneVerified: false,
+    };
+  });
 
   // Filters State
   const defaultFilters: FilterState = {
@@ -451,15 +472,48 @@ export const App: React.FC = () => {
         isFavorite={selectedListing ? favorites.has(selectedListing.id) : false}
         onToggleFavorite={handleToggleFavorite}
         onOpenCallConditions={(item) => setCallModalListing(item)}
+        onOpenReportModal={(id) => setReportingListingId(id)}
       />
 
-      {/* Anti-Semsar Call Conditions Modal */}
+      {/* Anti-Semsar Call Conditions Modal (Protected Reveal) */}
       {callModalListing && (
         <CallConditionsModal
           listing={callModalListing}
           isOpen={!!callModalListing}
           onClose={() => setCallModalListing(null)}
-          onReportSemsar={handleReportSemsar}
+          userSession={userSession}
+          onRequestPhoneVerification={() => setIsPhoneVerificationModalOpen(true)}
+          onOpenReportModal={(id) => setReportingListingId(id)}
+        />
+      )}
+
+      {/* Phone Verification Modal (+212 WhatsApp / SMS OTP) */}
+      <PhoneVerificationModal
+        isOpen={isPhoneVerificationModalOpen}
+        onClose={() => setIsPhoneVerificationModalOpen(false)}
+        onVerified={(phoneE164: string) => {
+          const updated = {
+            ...userSession,
+            isPhoneVerified: true,
+            phoneE164,
+          };
+          setUserSession(updated);
+          try {
+            localStorage.setItem('kriblasemsar_user_session', JSON.stringify(updated));
+          } catch {}
+          showToast(`✅ Numéro marocain ${phoneE164} vérifié avec succès !`);
+        }}
+      />
+
+      {/* Semsar Fraud & Abuse Report Modal */}
+      {reportingListingId && (
+        <SemsarReportModal
+          isOpen={!!reportingListingId}
+          onClose={() => setReportingListingId(null)}
+          listing={listings.find((l) => l.id === reportingListingId) || null}
+          onSubmitReport={() => {
+            showToast('✅ Signalement enregistré. Notre équipe modère l\'annonce sous 1h.');
+          }}
         />
       )}
 

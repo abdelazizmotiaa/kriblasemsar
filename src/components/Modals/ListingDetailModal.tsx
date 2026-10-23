@@ -29,6 +29,7 @@ interface ListingDetailModalProps {
   isFavorite: boolean;
   onToggleFavorite: (id: string) => void;
   onOpenCallConditions: (listing: Listing) => void;
+  onOpenReportModal?: (listingId: string) => void;
 }
 
 export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
@@ -433,17 +434,16 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
           </div>
 
           <div className="flex items-center gap-2">
-            {/* WhatsApp Deep Link Button */}
+            {/* WhatsApp Protected Button */}
             {listing.contact_methods.allow_whatsapp && (
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={() => onOpenCallConditions(listing)}
                 className="bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl shadow-md flex items-center gap-1.5 transition-all active:scale-95"
               >
                 <MessageCircle className="w-4 h-4 fill-white" />
                 <span>WhatsApp</span>
-              </a>
+              </button>
             )}
 
             {/* Call Button with conditions modal */}
