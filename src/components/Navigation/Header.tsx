@@ -22,6 +22,9 @@ interface HeaderProps {
   onOpenFavorites: () => void;
   onOpenPublish: () => void;
   activeListingCount: number;
+  onOpenAdmin?: () => void;
+  isPhoneVerified?: boolean;
+  onOpenVerification?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -32,6 +35,9 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenFavorites,
   onOpenPublish,
   activeListingCount,
+  onOpenAdmin,
+  isPhoneVerified = false,
+  onOpenVerification,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
@@ -245,7 +251,19 @@ export const Header: React.FC<HeaderProps> = ({
             <span>Déposer une annonce</span>
           </button>
 
-          {/* User profile avatar */}
+          {/* Admin Moderation Dashboard Button */}
+          {onOpenAdmin && (
+            <button
+              onClick={onOpenAdmin}
+              className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm"
+              title="Ouvrir le panneau d'administration et modération"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="hidden xl:inline">Modération</span>
+            </button>
+          )}
+
+          {/* User profile & phone verification status */}
           <div className="hidden lg:flex items-center gap-2 pl-2 border-l border-slate-200">
             <img
               src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80"
@@ -254,7 +272,19 @@ export const Header: React.FC<HeaderProps> = ({
             />
             <div className="text-left text-xs">
               <p className="font-semibold text-slate-800 leading-none">Mehdi B.</p>
-              <p className="text-[10px] text-emerald-600 font-medium">Particulier certifié</p>
+              {isPhoneVerified ? (
+                <p className="text-[10px] text-emerald-600 font-bold flex items-center gap-0.5">
+                  <span>✓</span> Tél. vérifié (+212)
+                </p>
+              ) : (
+                <button
+                  type="button"
+                  onClick={onOpenVerification}
+                  className="text-[10px] text-blue-600 font-bold hover:underline text-left block"
+                >
+                  + Vérifier mon tél
+                </button>
+              )}
             </div>
           </div>
 

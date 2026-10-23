@@ -21,6 +21,7 @@ import { CallConditionsModal } from './components/Modals/CallConditionsModal';
 import { PublishWizardModal } from './components/Modals/PublishWizardModal';
 import { PhoneVerificationModal } from './components/Modals/PhoneVerificationModal';
 import { SemsarReportModal } from './components/Modals/SemsarReportModal';
+import { AdminModerationDashboard } from './components/Admin/AdminModerationDashboard';
 
 export const App: React.FC = () => {
   // Master State with LocalStorage Persistence
@@ -65,6 +66,7 @@ export const App: React.FC = () => {
   const [callModalListing, setCallModalListing] = useState<Listing | null>(null);
   const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
   const [isPhoneVerificationModalOpen, setIsPhoneVerificationModalOpen] = useState(false);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [reportingListingId, setReportingListingId] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -301,6 +303,9 @@ export const App: React.FC = () => {
         onOpenFavorites={() => setActiveTab('favorites')}
         onOpenPublish={() => setIsPublishModalOpen(true)}
         activeListingCount={filteredListings.length}
+        onOpenAdmin={() => setIsAdminOpen(true)}
+        isPhoneVerified={userSession.isPhoneVerified}
+        onOpenVerification={() => setIsPhoneVerificationModalOpen(true)}
       />
 
       {/* Filter Bar with Search Barrel & More Filters */}
@@ -523,6 +528,22 @@ export const App: React.FC = () => {
         onClose={() => setIsPublishModalOpen(false)}
         onPublishListing={handlePublishListing}
         defaultCity={selectedCity}
+      />
+
+      {/* Super Admin & Anti-Semsar Moderation Dashboard */}
+      <AdminModerationDashboard
+        isOpen={isAdminOpen}
+        onClose={() => setIsAdminOpen(false)}
+        listings={listings}
+        onApproveListing={(id) => {
+          showToast(`Annonce ${id} approuvée et mise en ligne !`);
+        }}
+        onRejectListing={(id, reason) => {
+          showToast(`Annonce ${id} rejetée (${reason})`);
+        }}
+        onSuspendUser={(userId, reason) => {
+          showToast(`Utilisateur ${userId} suspendu pour : ${reason}`);
+        }}
       />
 
     </div>
