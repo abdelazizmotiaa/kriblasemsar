@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Mode Hors-Ligne | KriblaSemsar</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 24px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 24px;
+      padding: 32px 24px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    }
+    .icon {
+      width: 64px;
+      height: 64px;
+      background: #ecfdf5;
+      color: #059669;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 32px;
+    }
+    h1 {
+      font-size: 20px;
+      font-weight: 800;
+      margin: 0 0 8px;
+      color: #0f172a;
+    }
+    p {
+      font-size: 14px;
+      color: #64748b;
+      line-height: 1.5;
+      margin: 0 0 24px;
+    }
+    .btn {
+      display: inline-block;
+      width: 100%;
+      background: #059669;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 14px 20px;
+      border-radius: 14px;
+      text-decoration: none;
+      box-sizing: border-box;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: #047857;
+    }
+    .footer-note {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">📡</div>
+    <h1>Vous êtes hors connexion</h1>
+    <p>KriblaSemsar a besoin d'une connexion internet pour charger les nouvelles annonces et les coordonnées des propriétaires sans semsar.</p>
+    <button class="btn" onclick="window.location.reload()">Réessayer la connexion</button>
+    <div class="footer-note">كْري بلا سمسار — كراء مباشر 100% بالمغرب</div>
+  </div>
+</body>
+</html>

@@ -1,18 +1,38 @@
 {
-  "name": "KriblaSemsar - Colocation & Location Directe",
+  "name": "KriblaSemsar — كْري بلا سمسار",
   "short_name": "KriblaSemsar",
-  "description": "Colocation et location 100% directe sans semsar au Maroc",
+  "description": "Plateforme N°1 de colocation et location directe entre particuliers au Maroc. 0 DH de frais de semsar, 0% de commission d'intermédiaire.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#13855a",
   "orientation": "portrait-primary",
+  "lang": "fr",
+  "dir": "auto",
+  "categories": ["lifestyle", "real-estate", "utilities"],
   "icons": [
     {
       "src": "/logo.svg",
       "sizes": "192x192 512x512",
       "type": "image/svg+xml",
       "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Casablanca",
+      "short_name": "Casa",
+      "description": "Logements sans semsar à Casablanca",
+      "url": "/?city=Casablanca",
+      "icons": [{ "src": "/logo.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Benguerir (UM6P)",
+      "short_name": "UM6P",
+      "description": "Colocations et studios à Benguerir",
+      "url": "/?city=Benguerir",
+      "icons": [{ "src": "/logo.svg", "sizes": "192x192" }]
     }
   ]
 }

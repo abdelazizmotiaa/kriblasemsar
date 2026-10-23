@@ -22,6 +22,7 @@ import { PublishWizardModal } from './components/Modals/PublishWizardModal';
 import { PhoneVerificationModal } from './components/Modals/PhoneVerificationModal';
 import { SemsarReportModal } from './components/Modals/SemsarReportModal';
 import { AdminModerationDashboard } from './components/Admin/AdminModerationDashboard';
+import { PwaInstallBanner } from './components/Navigation/PwaInstallBanner';
 
 export const App: React.FC = () => {
   // Master State with LocalStorage Persistence
@@ -545,6 +546,9 @@ export const App: React.FC = () => {
           showToast(`Utilisateur ${userId} suspendu pour : ${reason}`);
         }}
       />
+
+      {/* PWA Mobile Installation Prompt */}
+      <PwaInstallBanner />
 
     </div>
   );

@@ -10,9 +10,11 @@ import {
   PlusCircle,
   Heart,
   ShieldCheck,
-  Sparkles
+  Sparkles,
+  Globe
 } from 'lucide-react';
 import { MOROCCO_CITIES, SearchSuggestion, searchMoroccoLocations } from '../../data/moroccoCities';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 interface HeaderProps {
   selectedCity: string;
@@ -39,6 +41,7 @@ export const Header: React.FC<HeaderProps> = ({
   isPhoneVerified = false,
   onOpenVerification,
 }) => {
+  const { language, toggleLanguage, t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -240,6 +243,16 @@ export const Header: React.FC<HeaderProps> = ({
                 {favoritesCount}
               </span>
             )}
+          </button>
+
+          {/* Bilingual Language Switcher (FR / AR RTL) */}
+          <button
+            onClick={toggleLanguage}
+            className="px-2.5 py-1.5 rounded-xl border border-slate-200 hover:border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-50 transition flex items-center gap-1 shadow-2xs"
+            title={language === 'fr' ? 'Passer en Arabe (العربية)' : 'Passer en Français'}
+          >
+            <Globe className="w-3.5 h-3.5 text-brand-600" />
+            <span>{language === 'fr' ? 'عربي' : 'FR'}</span>
           </button>
 
           {/* Post Listing CTA (Direct Moul Dar / Coloc) */}
