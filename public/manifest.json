@@ -1,0 +1,18 @@
+{
+  "name": "KriblaSemsar - Colocation & Location Directe",
+  "short_name": "KriblaSemsar",
+  "description": "Colocation et location 100% directe sans semsar au Maroc",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#13855a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

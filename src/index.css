@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Custom Leaflet Price Bubble Markers */
+.leaflet-div-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+.price-pin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  position: relative;
+  user-select: none;
+}
+
+.price-pin::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid currentColor;
+}
+
+/* Color types */
+.price-pin-colocation {
+  background-color: #2563eb; /* Blue */
+  color: #2563eb;
+}
+.price-pin-colocation span {
+  color: #ffffff;
+}
+
+.price-pin-apartment {
+  background-color: #10b981; /* Green */
+  color: #10b981;
+}
+.price-pin-apartment span {
+  color: #ffffff;
+}
+
+.price-pin-roommate {
+  background-color: #f97316; /* Orange */
+  color: #f97316;
+}
+.price-pin-roommate span {
+  color: #ffffff;
+}
+
+.price-pin:hover,
+.price-pin.active {
+  transform: scale(1.18) translateY(-4px);
+  z-index: 1000 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  filter: brightness(1.1);
+}
+
+.price-pin.active {
+  border-color: #facc15; /* Yellow ring for active */
+  box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.5), 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Safe area for iPhone notch / home indicator */
+.safe-bottom {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+/* Custom minimal scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.25);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.45);
+}
+
+/* Custom leaflet control overrides */
+.leaflet-bar {
+  border: none !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+.leaflet-bar a {
+  background-color: #ffffff !important;
+  color: #1e293b !important;
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  font-size: 16px !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+}
+
+/* Nationwide City Cluster Badges (Zoomed-out View) */
+.city-cluster-marker {
+  background: transparent !important;
+  border: none !important;
+}
+.city-cluster-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #ffffff;
+  border: 2px solid #10b981;
+  border-radius: 9999px;
+  padding: 5px 12px;
+  font-weight: 800;
+  font-size: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+.city-cluster-badge:hover {
+  transform: scale(1.12) translateY(-2px);
+  background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+  border-color: #34d399;
+  box-shadow: 0 10px 24px rgba(4, 120, 87, 0.45);
+}
+.city-cluster-badge .cluster-count {
+  background: #10b981;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 900;
+  padding: 1px 7px;
+  border-radius: 9999px;
+}
+
