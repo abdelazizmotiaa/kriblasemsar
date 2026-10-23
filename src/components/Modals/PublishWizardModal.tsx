@@ -16,11 +16,18 @@ import {
   Wifi,
   Wind,
   Bath,
-  Car
+  Car,
+  Image as ImageIcon,
+  Loader2
 } from 'lucide-react';
 import { Listing, ListingType, GenderPreference, OccupantTypePreference } from '../../types';
 import { CITIES, MOCK_USERS } from '../../data/mockData';
 import { InteractiveMap } from '../Map/InteractiveMap';
+import {
+  optimizeImage,
+  validateImageFile,
+  MAX_PHOTOS_PER_LISTING,
+} from '../../services/storage/imageOptimizer';
 
 interface PublishWizardModalProps {
   isOpen: boolean;
@@ -82,6 +89,8 @@ export const PublishWizardModal: React.FC<PublishWizardModalProps> = ({
     'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1000&q=80',
   ]);
   const [newPhotoUrl, setNewPhotoUrl] = useState('');
+  const [isCompressing, setIsCompressing] = useState(false);
+  const [photoError, setPhotoError] = useState<string | null>(null);
   const [whatsappNumber, setWhatsappNumber] = useState('+212671581167');
   const [phoneNumber, setPhoneNumber] = useState('+212671581167');
   const [callHours, setCallHours] = useState('18h30 - 21h00 — privilégiez WhatsApp en journée');
@@ -103,8 +112,58 @@ export const PublishWizardModal: React.FC<PublishWizardModalProps> = ({
 
   const handleAddPhoto = () => {
     if (newPhotoUrl.trim()) {
+      if (photos.length >= MAX_PHOTOS_PER_LISTING) {
+        setPhotoError(`Maximum ${MAX_PHOTOS_PER_LISTING} photos par annonce.`);
+        return;
+      }
       setPhotos([...photos, newPhotoUrl.trim()]);
       setNewPhotoUrl('');
+      setPhotoError(null);
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    setPhotoError(null);
+    setIsCompressing(true);
+
+    try {
+      const remainingSlots = MAX_PHOTOS_PER_LISTING - photos.length;
+      if (remainingSlots <= 0) {
+        setPhotoError(`Maximum ${MAX_PHOTOS_PER_LISTING} photos par annonce.`);
+        setIsCompressing(false);
+        return;
+      }
+
+      const filesToProcess = Array.from(files).slice(0, remainingSlots);
+      const newUrls: string[] = [];
+
+      for (const file of filesToProcess) {
+        const validation = validateImageFile(file);
+        if (!validation.valid) {
+          setPhotoError(validation.error || 'Format invalide');
+          continue;
+        }
+
+        const optimized = await optimizeImage(file, {
+          maxWidth: 1600,
+          quality: 0.82,
+          format: 'image/webp',
+        });
+
+        newUrls.push(optimized.previewUrl);
+      }
+
+      if (newUrls.length > 0) {
+        setPhotos((prev) => [...prev, ...newUrls]);
+      }
+    } catch (err: any) {
+      setPhotoError(err.message || 'Erreur lors de la compression de l\'image');
+    } finally {
+      setIsCompressing(false);
+      e.target.value = '';
     }
   };
 
@@ -531,38 +590,81 @@ export const PublishWizardModal: React.FC<PublishWizardModalProps> = ({
                 />
               </div>
 
-              {/* Photos */}
+              {/* Photos & Optimisation WebP */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Photos ({photos.length})</label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="text-xs font-bold text-slate-700">
+                    Photos ({photos.length}/{MAX_PHOTOS_PER_LISTING})
+                  </label>
+                  <span className="text-[10px] text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full">
+                    Compression WebP & Confidentialité EXIF
+                  </span>
+                </div>
+
+                {photoError && (
+                  <div className="mb-2 p-2 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-[11px] font-medium">
+                    {photoError}
+                  </div>
+                )}
+
+                {/* Previews */}
                 <div className="flex gap-2 overflow-x-auto pb-2">
                   {photos.map((url, i) => (
-                    <div key={i} className="relative w-20 h-20 rounded-xl overflow-hidden shrink-0 border border-slate-200">
-                      <img src={url} alt={`Photo ${i}`} className="w-full h-full object-cover" />
+                    <div key={i} className="relative w-20 h-20 rounded-xl overflow-hidden shrink-0 border border-slate-200 group">
+                      <img src={url} alt={`Photo ${i + 1}`} className="w-full h-full object-cover" />
                       <button
                         type="button"
                         onClick={() => setPhotos(photos.filter((_, idx) => idx !== i))}
-                        className="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/60 text-white flex items-center justify-center text-xs"
+                        className="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/70 hover:bg-rose-600 text-white flex items-center justify-center text-xs transition"
+                        title="Supprimer la photo"
                       >
                         ×
                       </button>
+                      <span className="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] font-bold px-1 rounded">
+                        #{i + 1}
+                      </span>
                     </div>
                   ))}
+
+                  {photos.length < MAX_PHOTOS_PER_LISTING && (
+                    <label className="w-20 h-20 rounded-xl border-2 border-dashed border-emerald-300 bg-emerald-50/50 hover:bg-emerald-50 text-emerald-700 flex flex-col items-center justify-center cursor-pointer shrink-0 transition">
+                      {isCompressing ? (
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                      ) : (
+                        <>
+                          <Upload className="w-5 h-5 mb-1" />
+                          <span className="text-[10px] font-bold">Ajouter</span>
+                        </>
+                      )}
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp,image/avif"
+                        multiple
+                        onChange={handleFileUpload}
+                        disabled={isCompressing}
+                        className="hidden"
+                      />
+                    </label>
+                  )}
                 </div>
+
+                {/* URL Fallback */}
                 <div className="flex gap-2 mt-2">
                   <input
                     type="url"
                     value={newPhotoUrl}
                     onChange={(e) => setNewPhotoUrl(e.target.value)}
-                    placeholder="Coller l'URL d'une photo..."
+                    placeholder="Ou coller une URL d'image directe..."
                     className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs"
                   />
                   <button
                     type="button"
                     onClick={handleAddPhoto}
-                    className="bg-slate-800 text-white px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1"
+                    disabled={photos.length >= MAX_PHOTOS_PER_LISTING}
+                    className="bg-slate-800 disabled:opacity-50 text-white px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1"
                   >
                     <Plus className="w-3.5 h-3.5" />
-                    <span>Ajouter</span>
+                    <span>Lien</span>
                   </button>
                 </div>
               </div>
