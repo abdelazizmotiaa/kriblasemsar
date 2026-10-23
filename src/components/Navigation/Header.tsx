@@ -150,7 +150,7 @@ export const Header: React.FC<HeaderProps> = ({
               </span>
               <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-emerald-300 flex items-center gap-0.5">
                 <ShieldCheck className="w-2.5 h-2.5 text-emerald-600" />
-                0% Semsar
+                0% Semsar • 100% Gratuit
               </span>
             </div>
             <p className="text-[10px] text-slate-500 font-medium hidden md:block -mt-0.5">

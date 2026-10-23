@@ -132,17 +132,20 @@ Conformément à la loi marocaine n° 09-08 relative à la protection des person
 
 ---
 
-## 6. Estimation des Coûts Récurrents d'Infrastructure (Pilote)
+## 6. Architecture & Budget : 100% Gratuit & Bénévole (0,00 MAD / mois)
 
-| Poste de Coût | Fournisseur | Coût Estimé (Pilote 500 utilisateurs/mois) |
-| :--- | :--- | :--- |
-| **Hébergement Frontend (PWA)** | Vercel / Cloudflare Pages | Gratuit (Tier Hobby / Free) |
-| **Base de données & Auth** | Supabase PostgreSQL + PostGIS | Gratuit (Tier Free jusqu'à 500 Mo) |
-| **Stockage Photos (WebP)** | Supabase Storage (10 Go gratuits) | Gratuit |
-| **Cartographie (Tuiles)** | CARTO Voyager (Clé API officielle) | Inclus dans le forfait CARTO actif |
-| **Vérification OTP WhatsApp** | Meta WhatsApp Cloud API | ~0,38 MAD par vérification (~190 MAD pour 500 utilisateurs) |
-| **Vérification OTP SMS (Repli)** | Twilio Verify (+212) | ~0,85 MAD par SMS délivré (utilisé uniquement si WhatsApp échoue) |
-| **TOTAL PILOTE ESTIMÉ** | — | **~150 à 250 MAD / mois** |
+La plateforme **KriblaSemsar** est conçue comme une initiative citoyenne et solidaire bénévole. Aucune dépense récurrente n'est requise pour son exploitation :
+
+| Poste d'Infrastructure | Solution 100% Gratuite | Coût Récurrent | Justification & Pérennité |
+| :--- | :--- | :--- | :--- |
+| **Hébergement Frontend & PWA** | Vercel (Hobby) ou Cloudflare Pages | **0,00 MAD** | Illimité, CDN mondial avec nœud Casablanca, SSL/TLS automatique |
+| **Base de Données & Auth** | Supabase (Tier Gratuit) | **0,00 MAD** | 500 Mo PostgreSQL + PostGIS (supporte des dizaines de milliers d'annonces), 50k MAU |
+| **Stockage Photos Optimisées** | Supabase Storage (1 Go gratuit) | **0,00 MAD** | Compression WebP côté client (80-150 Ko / photo = ~10 000 photos gratuites) |
+| **Fond Cartographique** | CARTO Voyager (Clé active) / OpenStreetMap | **0,00 MAD** | Clé gratuite CARTO Voyager ou tuiles libres OpenStreetMap en repli |
+| **Vérification Téléphone (+212)** | Mode Solidaire `FreeCommunityProvider` | **0,00 MAD** | Validation E.164 stricte + jeton instantané sans passer par des API payantes |
+| **Mise en Relation WhatsApp** | Liens profonds natifs `wa.me/212...` | **0,00 MAD** | Échanges directs de mobile à mobile via l'application gratuite WhatsApp |
+| **Système Anti-Semsar** | Modération communautaire & RLS Postgres | **0,00 MAD** | Engagement sur l'honneur + suspension automatique dès 3 signalements |
+| **TOTAL RÉCURRENT MENSUEL** | — | **0,00 MAD / mois** | **Projet 100% Bénévole & Zéro Frais** |
 
 ---
 

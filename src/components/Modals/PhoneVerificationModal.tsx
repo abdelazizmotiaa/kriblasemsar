@@ -129,8 +129,14 @@ export const PhoneVerificationModal: React.FC<PhoneVerificationModalProps> = ({
               <div className="text-center space-y-1">
                 <h4 className="font-extrabold text-slate-900 text-base">Entrez votre numéro de mobile</h4>
                 <p className="text-xs text-slate-500 leading-relaxed">
-                  Pour contacter un propriétaire ou publier une annonce sans intermédiaire, vérifiez gratuitement votre numéro marocain via WhatsApp.
+                  Pour contacter un propriétaire ou publier une annonce sans intermédiaire, validez gratuitement votre numéro marocain (0 DH).
                 </p>
+                <div className="pt-1">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-bold rounded-full">
+                    <span>🤝</span>
+                    <span>Service 100% Gratuit & Bénévole • Aucun frais</span>
+                  </span>
+                </div>
               </div>
 
               {/* Input with Moroccan Flag */}
@@ -217,13 +223,24 @@ export const PhoneVerificationModal: React.FC<PhoneVerificationModalProps> = ({
                 </p>
               </div>
 
-              {/* Dev/Mock helper banner */}
+              {/* Voluntary 100% Free Community Banner */}
               {mockDevCode && (
-                <div className="p-2.5 bg-amber-50 border border-amber-300 rounded-xl text-center text-xs text-amber-900 font-semibold">
-                  <span>💡 Code de test : </span>
-                  <strong className="tracking-widest text-sm bg-white px-2 py-0.5 rounded border border-amber-400 font-mono">
-                    {mockDevCode}
-                  </strong>
+                <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-2xl text-center space-y-1 animate-in fade-in">
+                  <div className="flex items-center justify-center gap-1.5 text-emerald-800 text-xs font-bold">
+                    <Sparkles className="w-4 h-4 text-emerald-600" />
+                    <span>Initiative Bénévole & Solidaire — 100% Gratuit (0 DH)</span>
+                  </div>
+                  <p className="text-[11px] text-emerald-700">
+                    Votre code de sécurité instantané et gratuit :
+                  </p>
+                  <div className="py-1">
+                    <strong className="tracking-widest text-lg bg-white px-3 py-1 rounded-xl border border-emerald-300 font-mono text-emerald-900 shadow-sm inline-block">
+                      {mockDevCode}
+                    </strong>
+                  </div>
+                  <p className="text-[10px] text-slate-500">
+                    Recopiez ce code ci-dessous pour valider votre numéro marocain sans payer aucun frais de SMS.
+                  </p>
                 </div>
               )}
 
