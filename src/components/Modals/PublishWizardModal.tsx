@@ -86,6 +86,8 @@ export const PublishWizardModal: React.FC<PublishWizardModalProps> = ({
   const [phoneNumber, setPhoneNumber] = useState('+212671581167');
   const [callHours, setCallHours] = useState('18h30 - 21h00 — privilégiez WhatsApp en journée');
   const [callNote, setCallNote] = useState('En cours/bureau la journée. Merci d’envoyer un message WhatsApp de présentation.');
+  const [advertiserRole, setAdvertiserRole] = useState<'owner' | 'flatmate' | 'authorized_representative'>('owner');
+  const [honorDeclarationChecked, setHonorDeclarationChecked] = useState(false);
 
   if (!isOpen) return null;
 
@@ -600,12 +602,54 @@ export const PublishWizardModal: React.FC<PublishWizardModalProps> = ({
                 />
               </div>
 
-              <div className="bg-emerald-50 border border-emerald-200 p-3 rounded-2xl flex items-center gap-2 text-xs text-emerald-950">
-                <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0" />
-                <span>
-                  <strong>Engagement 0% Semsar :</strong> KriblaSemsar bannit automatiquement tout utilisateur demandant des frais d'intermédiaire.
-                </span>
+              {/* Rôle de l'Annonceur */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Vous publiez cette annonce en tant que :
+                </label>
+                <div className="grid grid-cols-3 gap-2 text-xs">
+                  {[
+                    { id: 'owner', label: 'Propriétaire (Moul Dar)' },
+                    { id: 'flatmate', label: 'Colocataire actuel' },
+                    { id: 'authorized_representative', label: 'Représentant sans frais' }
+                  ].map((r) => (
+                    <button
+                      key={r.id}
+                      type="button"
+                      onClick={() => setAdvertiserRole(r.id as any)}
+                      className={`p-2.5 rounded-xl border text-center transition-all ${
+                        advertiserRole === r.id
+                          ? 'border-brand-600 bg-brand-50 text-brand-900 font-bold'
+                          : 'border-slate-200 text-slate-700 hover:border-slate-300'
+                      }`}
+                    >
+                      {r.label}
+                    </button>
+                  ))}
+                </div>
               </div>
+
+              {/* Déclaration sur l'honneur obligatoire (Anti-Semsar) */}
+              <label className="flex items-start gap-3 p-3.5 bg-emerald-50/90 rounded-2xl border-2 border-emerald-500 cursor-pointer shadow-xs">
+                <input
+                  type="checkbox"
+                  required
+                  checked={honorDeclarationChecked}
+                  onChange={(e) => setHonorDeclarationChecked(e.target.checked)}
+                  className="w-4 h-4 text-emerald-600 rounded mt-0.5 shrink-0"
+                />
+                <div className="text-xs text-emerald-950 font-medium space-y-1">
+                  <p className="font-bold text-slate-900">
+                    « Je certifie que cette annonce est authentique et qu'aucune commission de courtage n'est demandée. »
+                  </p>
+                  <p className="font-bold text-emerald-800" dir="rtl">
+                    « أصرح أن هذا الإعلان حقيقي ولا أطلب أي عمولة سمسرة. »
+                  </p>
+                  <p className="text-[10px] text-emerald-700">
+                    KriblaSemsar est réservé aux particuliers directs. Tout intermédiaire réclamant des frais de visite ou commission sera banni.
+                  </p>
+                </div>
+              </label>
             </div>
           )}
 
@@ -638,8 +682,9 @@ export const PublishWizardModal: React.FC<PublishWizardModalProps> = ({
           ) : (
             <button
               type="button"
+              disabled={!honorDeclarationChecked}
               onClick={handleSubmit}
-              className="bg-gradient-to-r from-brand-600 to-emerald-500 hover:from-brand-700 hover:to-emerald-600 text-white text-xs font-bold px-6 py-2.5 rounded-xl flex items-center gap-1.5 shadow-lg shadow-emerald-600/20 transition-all"
+              className="bg-gradient-to-r from-brand-600 to-emerald-500 hover:from-brand-700 hover:to-emerald-600 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-bold px-6 py-2.5 rounded-xl flex items-center gap-1.5 shadow-lg shadow-emerald-600/20 transition-all"
             >
               <Check className="w-4 h-4 stroke-[3]" />
               <span>Publier gratuitement (0% Semsar)</span>
