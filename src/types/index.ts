@@ -78,6 +78,7 @@ export interface Listing {
   available_from: string;
   min_stay_months: number;
   status: 'active' | 'rented' | 'flagged_semsar';
+  is_demo?: boolean;
   photos: string[];
   created_at: string;
   views_count?: number;

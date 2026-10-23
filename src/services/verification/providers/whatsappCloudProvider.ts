@@ -33,7 +33,7 @@ export class WhatsAppCloudProvider implements IVerificationProvider {
     if (!this.config.apiToken || !this.config.phoneNumberId) {
       return {
         success: false,
-        error: 'Identifiants WhatsApp Business API non configurés (WHATSAPP_API_TOKEN ou WHATSAPP_PHONE_NUMBER_ID manquants).'
+        error: 'Passerelle WhatsApp Business officielle en attente de configuration. Les privilèges réservés aux numéros vérifiés restent désactivés pour protéger la communauté contre les semsars.'
       };
     }
 

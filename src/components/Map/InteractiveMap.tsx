@@ -61,9 +61,11 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
 
     const cityConfig = MOROCCO_CITIES[selectedCity] || MOROCCO_CITIES.Casablanca;
 
-    // Use CartoDB Voyager tiles with authenticated API key for watermark-free rendering
-    const cartoApiKey = import.meta.env.VITE_CARTO_API_KEY || 'cb1_4t6e_1_a5d52c28d7a3493bc3cbb3dd';
-    const tileUrl = `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${cartoApiKey}`;
+    // Use CartoDB Voyager tiles with authenticated API key from environment
+    const cartoApiKey = import.meta.env.VITE_CARTO_API_KEY;
+    const tileUrl = cartoApiKey
+      ? `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${cartoApiKey}`
+      : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 
     // Morocco Strict Bounds
     const moroccoBounds: L.LatLngBoundsLiteral = [

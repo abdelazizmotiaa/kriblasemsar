@@ -11,6 +11,7 @@ import {
 } from './types';
 import { normalizeMoroccanPhone } from './phoneNormalization';
 import { MockVerificationProvider } from './providers/mockProvider';
+import { WhatsAppCloudProvider } from './providers/whatsappCloudProvider';
 
 export interface ActiveOtpSession {
   verificationId: string;
@@ -168,7 +169,7 @@ export class VerificationService {
       phoneE164,
       expiresInSeconds,
       resendCooldownSeconds: 60,
-      mockOtp: this.isMock ? rawOtp : undefined
+      mockOtp: (this.isMock && isTestMode) ? rawOtp : undefined
     };
   }
 
@@ -268,5 +269,16 @@ export class VerificationService {
   }
 }
 
-// Default singleton instance
-export const defaultVerificationService = new VerificationService();
+// Default singleton instance with production security
+const env = (typeof import.meta !== 'undefined' && (import.meta as any).env) || {};
+const isTestMode = env.MODE === 'test';
+const hasWhatsAppConfig = Boolean(env.VITE_WHATSAPP_API_TOKEN && env.VITE_WHATSAPP_PHONE_NUMBER_ID);
+
+export const defaultVerificationService = new VerificationService(
+  hasWhatsAppConfig
+    ? new WhatsAppCloudProvider()
+    : isTestMode
+    ? new MockVerificationProvider()
+    : new WhatsAppCloudProvider(), // Safe: fails with configuration error instead of leaking codes
+  isTestMode
+);

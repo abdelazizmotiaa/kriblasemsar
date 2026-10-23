@@ -78,7 +78,7 @@ export const MOCK_USERS: Record<string, User> = {
   }
 };
 
-export const INITIAL_LISTINGS: Listing[] = [
+const RAW_INITIAL_LISTINGS: Listing[] = [
   // ==========================================
   // BENGUERIR (4 ANNONCES)
   // ==========================================
@@ -1489,7 +1489,12 @@ export const INITIAL_LISTINGS: Listing[] = [
       non_smoker: true,
       pets_allowed: true,
       quiet_hours: true,
-      overnight_guests: true
+      overnight_guests: true,
     }
   }
 ];
+
+export const INITIAL_LISTINGS: Listing[] = RAW_INITIAL_LISTINGS.map((item) => ({
+  ...item,
+  is_demo: true,
+}));

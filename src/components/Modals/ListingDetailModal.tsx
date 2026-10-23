@@ -151,6 +151,21 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
 
           <div className="p-4 sm:p-6 space-y-6">
             
+            {/* Demo Listing Disclaimers */}
+            {listing.is_demo && (
+              <div className="bg-amber-50 border border-amber-200 text-amber-900 p-3 rounded-2xl flex items-start gap-2.5 text-xs">
+                <span className="text-base shrink-0">💡</span>
+                <div>
+                  <span className="font-extrabold uppercase tracking-wider text-[10px] bg-amber-200 text-amber-900 px-1.5 py-0.5 rounded mr-1.5">
+                    Annonce d'Exemple / Démonstration
+                  </span>
+                  <p className="text-amber-800 text-[11px] mt-0.5 leading-relaxed">
+                    Cette annonce est un exemple illustratif créé pour la phase de test de la plateforme. Elle ne constitue pas une offre locative réelle.
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* Zero Semsar Guarantee Banner */}
             <div className="bg-gradient-to-r from-emerald-600 to-brand-700 text-white p-3.5 rounded-2xl shadow-sm flex items-center justify-between">
               <div className="flex items-center gap-2.5">

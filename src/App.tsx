@@ -24,6 +24,8 @@ import { SemsarReportModal } from './components/Modals/SemsarReportModal';
 import { AdminModerationDashboard } from './components/Admin/AdminModerationDashboard';
 import { PwaInstallBanner } from './components/Navigation/PwaInstallBanner';
 import { PilotAnalyticsDashboard } from './components/Pilot/PilotAnalyticsDashboard';
+import { OwnerOnboardingModal } from './components/Modals/OwnerOnboardingModal';
+import { listingSyncService } from './services/listings/listingSyncService';
 
 export const App: React.FC = () => {
   // Master State with LocalStorage Persistence
@@ -70,6 +72,7 @@ export const App: React.FC = () => {
   const [isPhoneVerificationModalOpen, setIsPhoneVerificationModalOpen] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [isPilotAnalyticsOpen, setIsPilotAnalyticsOpen] = useState(false);
+  const [isOwnerOnboardingOpen, setIsOwnerOnboardingOpen] = useState(false);
   const [reportingListingId, setReportingListingId] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -254,14 +257,17 @@ export const App: React.FC = () => {
 
   // Handle New Listing from Wizard with Persistence
   const handlePublishListing = (newListing: Listing) => {
+    const realListing: Listing = { ...newListing, is_demo: false };
     setListings((prev) => {
-      const updated = [newListing, ...prev];
+      const updated = [realListing, ...prev];
       try {
         const userCreated = updated.filter((l) => l.id.startsWith('new-'));
         localStorage.setItem('kriblasemsar_user_listings', JSON.stringify(userCreated));
       } catch {}
       return updated;
     });
+    // Persist to remote Supabase if connected
+    listingSyncService.saveListing(realListing).catch(() => {});
     setSelectedCity(newListing.city);
     setMapBounds(null);
     setFilters((prev) => ({
@@ -363,6 +369,27 @@ export const App: React.FC = () => {
             <span className="text-xs text-slate-500 font-semibold">
               {filteredListings.length} bien{filteredListings.length > 1 ? 's' : ''} direct
             </span>
+          </div>
+
+          {/* Owner Onboarding Banner for Benguerir & Casablanca Pilot */}
+          <div className="bg-gradient-to-r from-emerald-50 via-teal-50 to-slate-50 border border-emerald-200/80 rounded-2xl p-3 flex items-center justify-between gap-3 shadow-2xs">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">🏡</span>
+              <div className="text-left">
+                <p className="text-xs font-bold text-slate-900 leading-tight">
+                  Vous êtes propriétaire à {selectedCity} ?
+                </p>
+                <p className="text-[11px] text-slate-500">
+                  Louez en direct sans commission aux étudiants et actifs vérifiés.
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => setIsOwnerOnboardingOpen(true)}
+              className="shrink-0 bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-xs transition"
+            >
+              Espace Bailleur
+            </button>
           </div>
 
           {/* Cards Grid */}
@@ -555,6 +582,14 @@ export const App: React.FC = () => {
         isOpen={isPilotAnalyticsOpen}
         onClose={() => setIsPilotAnalyticsOpen(false)}
         listings={listings}
+      />
+
+      {/* Owner Onboarding Workflow Modal */}
+      <OwnerOnboardingModal
+        isOpen={isOwnerOnboardingOpen}
+        onClose={() => setIsOwnerOnboardingOpen(false)}
+        onStartPublish={() => setIsPublishModalOpen(true)}
+        defaultCity={selectedCity}
       />
 
       {/* PWA Mobile Installation Prompt */}

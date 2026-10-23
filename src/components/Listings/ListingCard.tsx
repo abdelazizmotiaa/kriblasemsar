@@ -65,6 +65,11 @@ export const ListingCard: React.FC<ListingCardProps> = ({
             <ShieldCheck className="w-3 h-3 text-emerald-400" />
             0% Semsar
           </span>
+          {listing.is_demo && (
+            <span className="bg-amber-500/90 backdrop-blur-md text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-amber-300 shadow-sm">
+              Exemple / Démo
+            </span>
+          )}
         </div>
 
         {/* Favorite Heart Button */}
