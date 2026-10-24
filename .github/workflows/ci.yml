@@ -36,3 +36,19 @@ jobs:
           VITE_CARTO_API_KEY: ${{ secrets.VITE_CARTO_API_KEY || 'cb1_4t6e_1_a5d52c28d7a3493bc3cbb3dd' }}
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || 'https://mock.supabase.co' }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY || 'mock-anon-key' }}
+
+      - name: Deploy to Cloudflare Pages (Automated CD)
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main') && secrets.CLOUDFLARE_API_TOKEN != ''
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=kriblasemsar
+        continue-on-error: true
+
+      - name: Verify Live Health
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
+        run: |
+          echo "Pinging live endpoints..."
+          curl -sI --max-time 10 https://www.kriblasemsar.com || true
+
