@@ -351,17 +351,19 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
       }
 
       const formattedPrice = listing.price_amount.toLocaleString('fr-FR');
+      const isRoommate = listing.listing_type === 'roommate_search';
+      const pinLabel = isRoommate ? `👤 ${formattedPrice} DH max` : `${formattedPrice} DH`;
       const html = `
         <div class="price-pin ${typeClass} ${activeClass}" id="marker-${listing.id}">
-          <span>${formattedPrice} DH</span>
+          <span>${pinLabel}</span>
         </div>
       `;
 
       const icon = L.divIcon({
         className: 'leaflet-price-marker',
         html: html,
-        iconSize: [84, 32],
-        iconAnchor: [42, 32],
+        iconSize: isRoommate ? [108, 32] : [84, 32],
+        iconAnchor: isRoommate ? [54, 32] : [42, 32],
       });
 
       let marker = markersRef.current.get(listing.id);
@@ -390,8 +392,8 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
         if (!circle) {
           circle = L.circle([displayLat, displayLng], {
             radius: 180,
-            color: listing.listing_type === 'full_apartment' ? '#10B981' : '#3B82F6',
-            fillColor: listing.listing_type === 'full_apartment' ? '#10B981' : '#3B82F6',
+            color: listing.listing_type === 'full_apartment' ? '#10B981' : listing.listing_type === 'roommate_search' ? '#F97316' : '#3B82F6',
+            fillColor: listing.listing_type === 'full_apartment' ? '#10B981' : listing.listing_type === 'roommate_search' ? '#F97316' : '#3B82F6',
             fillOpacity: 0.12,
             weight: 1.5,
             dashArray: '3, 4',
@@ -525,6 +527,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
                   </div>
 
                   <p className="text-base font-extrabold text-slate-900 mt-0.5">
+                    {previewListing.listing_type === 'roommate_search' ? 'Budget max : ' : ''}
                     {previewListing.price_amount.toLocaleString('fr-FR')}{' '}
                     <span className="text-xs font-semibold text-slate-500">DH/mois</span>
                   </p>

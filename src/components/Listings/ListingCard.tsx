@@ -114,6 +114,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({
         <div>
           <div className="flex items-baseline justify-between">
             <div className="flex items-baseline gap-1">
+              {isRoommate && <span className="text-xs font-bold text-amber-700">Budget max : </span>}
               <span className="text-xl font-extrabold text-slate-900 tracking-tight">
                 {listing.price_amount.toLocaleString('fr-FR')}
               </span>
@@ -121,7 +122,11 @@ export const ListingCard: React.FC<ListingCardProps> = ({
                 {listing.currency} / mois
               </span>
             </div>
-            {listing.charges_included ? (
+            {isRoommate ? (
+              <span className="text-[11px] font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+                Cherche coloc
+              </span>
+            ) : listing.charges_included ? (
               <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
                 Charges incluses
               </span>

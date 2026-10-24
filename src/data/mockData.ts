@@ -75,6 +75,42 @@ export const MOCK_USERS: Record<string, User> = {
     verified_badge: true,
     country_code: 'MA',
     created_at: '2023-08-14'
+  },
+  salma: {
+    id: 'u-7',
+    full_name: 'Salma Bennani',
+    avatar_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+    phone_number: '+212664001122',
+    whatsapp_number: '+212664001122',
+    role: 'tenant',
+    occupation: 'student',
+    verified_badge: true,
+    country_code: 'MA',
+    created_at: '2024-04-10'
+  },
+  yassine: {
+    id: 'u-8',
+    full_name: 'Yassine Cherkaoui',
+    avatar_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+    phone_number: '+212665112233',
+    whatsapp_number: '+212665112233',
+    role: 'tenant',
+    occupation: 'corporate_professional',
+    verified_badge: true,
+    country_code: 'MA',
+    created_at: '2024-03-22'
+  },
+  hajar: {
+    id: 'u-9',
+    full_name: 'Hajar Tazi',
+    avatar_url: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=200&q=80',
+    phone_number: '+212666223344',
+    whatsapp_number: '+212666223344',
+    role: 'tenant',
+    occupation: 'student',
+    verified_badge: true,
+    country_code: 'MA',
+    created_at: '2024-02-18'
   }
 };
 
@@ -1490,6 +1526,189 @@ const RAW_INITIAL_LISTINGS: Listing[] = [
       pets_allowed: true,
       quiet_hours: true,
       overnight_guests: true,
+    }
+  },
+  // ==========================================
+  // PROFILS DE RECHERCHE COLOCATAIRES (STYLE LA CARTE DES COLOCS)
+  // ==========================================
+  {
+    id: 'bg-search-1',
+    user_id: 'u-7',
+    user: MOCK_USERS.salma,
+    listing_type: 'roommate_search',
+    title: 'Étudiante Master UM6P cherche coloc calme à la Ville Verte',
+    description: 'Salam ! Je suis étudiante en Master à l’UM6P (Green Energy Park). Je recherche une chambre dans une colocation calme, propre et studieuse ou une colocataire sérieuse pour prendre un appartement ensemble à la Ville Verte. Non-fumeuse, sociable et respectueuse.',
+    country_code: 'MA',
+    city: 'Benguerir',
+    neighborhood: 'Ville Verte / Proche UM6P',
+    latitude: 32.2240,
+    longitude: -7.9360,
+    exact_location_hidden: true,
+    price_amount: 1900,
+    currency: 'MAD',
+    deposit_amount: 1900,
+    charges_included: true,
+    charges_details: 'Budget max souhaité avec eau, électricité ONEE et Fibre optique',
+    surface_total: 85,
+    room_surface: 15,
+    total_rooms: 3,
+    available_rooms: 1,
+    furnished: true,
+    gender_preference: 'female_only',
+    occupant_type_preference: 'students',
+    amenities: {
+      wifi_fiber: true,
+      washing_machine: true,
+      ac: true,
+      parking: false,
+      elevator: true,
+      security_24_7: true,
+      kitchen_equipped: true,
+      balcony: true,
+      private_bathroom: false
+    },
+    contact_methods: {
+      allow_whatsapp: true,
+      allow_phone: true,
+      allow_internal_chat: true
+    },
+    call_conditions_hours: '18h00 - 21h00',
+    call_conditions_note: 'En cours et labo en journée. Merci de m’écrire d’abord sur WhatsApp avec les détails du logement.',
+    available_from: '2024-09-01',
+    min_stay_months: 6,
+    status: 'active',
+    photos: [
+      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=800&q=80'
+    ],
+    created_at: '2024-07-20',
+    views_count: 94,
+    compatibility_tags: ['Filles uniquement', 'UM6P', 'Calme & Studieuse', 'Non-fumeur', 'Fibre 100M'],
+    house_rules: {
+      non_smoker: true,
+      pets_allowed: false,
+      quiet_hours: true,
+      overnight_guests: false
+    }
+  },
+  {
+    id: 'casa-search-1',
+    user_id: 'u-8',
+    user: MOCK_USERS.yassine,
+    listing_type: 'roommate_search',
+    title: 'Ingénieur Data à CFC cherche chambre en coloc - Maârif / Racine / Gauthier',
+    description: 'Bonjour ! Je travaille dans la data & fintech à Casa Finance City. Je cherche une chambre dans une colocation sympa et propre avec d’autres jeunes cadres ou ingénieurs. Fan de sport et de cuisine. Recherche secteur Maârif, Gauthier, Bourgogne ou proche station Tramway.',
+    country_code: 'MA',
+    city: 'Casablanca',
+    neighborhood: 'Maârif / Racine',
+    latitude: 33.5875,
+    longitude: -7.6380,
+    exact_location_hidden: true,
+    price_amount: 3200,
+    currency: 'MAD',
+    deposit_amount: 3200,
+    charges_included: true,
+    charges_details: 'Budget charges comprises (Syndic, Fibre 100M+, électricité)',
+    surface_total: 110,
+    room_surface: 18,
+    total_rooms: 3,
+    available_rooms: 1,
+    furnished: true,
+    gender_preference: 'mixed',
+    occupant_type_preference: 'professionals',
+    amenities: {
+      wifi_fiber: true,
+      washing_machine: true,
+      ac: true,
+      parking: true,
+      elevator: true,
+      security_24_7: true,
+      kitchen_equipped: true,
+      balcony: true,
+      private_bathroom: true
+    },
+    contact_methods: {
+      allow_whatsapp: true,
+      allow_phone: true,
+      allow_internal_chat: true
+    },
+    call_conditions_hours: '19h00 - 21h30',
+    call_conditions_note: 'En réunion au bureau en journée, WhatsApp privilégié pour premier contact.',
+    available_from: '2024-09-15',
+    min_stay_months: 12,
+    status: 'active',
+    photos: [
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80'
+    ],
+    created_at: '2024-07-22',
+    views_count: 156,
+    compatibility_tags: ['Cadres / Tech', 'Proche Tramway', 'Non-fumeur', 'Sportif', 'Fibre 200M'],
+    house_rules: {
+      non_smoker: true,
+      pets_allowed: false,
+      quiet_hours: true,
+      overnight_guests: true
+    }
+  },
+  {
+    id: 'rab-search-1',
+    user_id: 'u-9',
+    user: MOCK_USERS.hajar,
+    listing_type: 'roommate_search',
+    title: 'Interne en médecine cherche coloc 100% filles - Agdal proche Tramway',
+    description: 'Salam ! Je suis interne au CHU Ibn Sina / Faculté de Médecine de Rabat. Je cherche une chambre meublée dans un appartement propre et calme entre filles, proche station Tramway Agdal ou avenue des Nations Unies. Très respectueuse du calme et du sommeil de chacune.',
+    country_code: 'MA',
+    city: 'Rabat',
+    neighborhood: 'Agdal / Facultés',
+    latitude: 33.9985,
+    longitude: -6.8520,
+    exact_location_hidden: true,
+    price_amount: 2500,
+    currency: 'MAD',
+    deposit_amount: 2500,
+    charges_included: true,
+    charges_details: 'Budget mensuel tout compris',
+    surface_total: 90,
+    room_surface: 16,
+    total_rooms: 3,
+    available_rooms: 1,
+    furnished: true,
+    gender_preference: 'female_only',
+    occupant_type_preference: 'students',
+    amenities: {
+      wifi_fiber: true,
+      washing_machine: true,
+      ac: false,
+      parking: false,
+      elevator: true,
+      security_24_7: true,
+      kitchen_equipped: true,
+      balcony: true,
+      private_bathroom: false
+    },
+    contact_methods: {
+      allow_whatsapp: true,
+      allow_phone: true,
+      allow_internal_chat: true
+    },
+    call_conditions_hours: '18h30 - 21h00',
+    call_conditions_note: 'Gardes à l’hôpital, n’hésitez pas à m’envoyer un message WhatsApp.',
+    available_from: '2024-09-01',
+    min_stay_months: 9,
+    status: 'active',
+    photos: [
+      'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=800&q=80'
+    ],
+    created_at: '2024-07-24',
+    views_count: 112,
+    compatibility_tags: ['Filles uniquement', 'Agdal Tram', 'Médecine', 'Calme absolu', 'Fibre Optique'],
+    house_rules: {
+      non_smoker: true,
+      pets_allowed: false,
+      quiet_hours: true,
+      overnight_guests: false
     }
   }
 ];

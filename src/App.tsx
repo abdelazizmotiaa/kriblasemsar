@@ -392,6 +392,17 @@ export const App: React.FC = () => {
             </button>
           </div>
 
+          {/* La Carte des Colocs Inspired - Vigilance Sécurité & Zéro Semsar Banner */}
+          <div className="bg-amber-50/80 border border-amber-200/90 rounded-2xl p-3 flex items-start gap-2.5 shadow-2xs">
+            <span className="text-base shrink-0 mt-0.5">🛡️</span>
+            <div className="text-left text-xs text-amber-950 leading-relaxed">
+              <span className="font-extrabold text-amber-900">Conseil Sécurité KriblaSemsar :</span>{' '}
+              <span className="text-amber-800">
+                Ne versez <span className="font-bold underline decoration-amber-400">jamais d'avance</span> (Wafacash, Cash Plus ou virement) avant d'avoir visité le bien et vérifié l'identité du bailleur ou colocataire. Plateforme 100% directe et sans commission de semsar.
+              </span>
+            </div>
+          </div>
+
           {/* Cards Grid */}
           {filteredListings.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">

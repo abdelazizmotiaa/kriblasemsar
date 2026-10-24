@@ -47,10 +47,13 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
 
   const isColoc = listing.listing_type === 'colocation_room';
   const isApartment = listing.listing_type === 'full_apartment';
+  const isRoommate = listing.listing_type === 'roommate_search';
 
   // Format polite WhatsApp prefilled message in Moroccan context
   const whatsappMessage = encodeURIComponent(
-    `Salam / Bonjour, je vous contacte via KriblaSemsar.com concernant votre annonce "${listing.title}" à ${listing.neighborhood}, ${listing.city}. Est-elle toujours disponible pour une visite ?`
+    isRoommate
+      ? `Salam / Bonjour ${listing.user.full_name}, j'ai vu votre profil de recherche de colocation sur KriblaSemsar.com pour ${listing.city}. Êtes-vous toujours en recherche d'une colocation ?`
+      : `Salam / Bonjour, je vous contacte via KriblaSemsar.com concernant votre annonce "${listing.title}" à ${listing.neighborhood}, ${listing.city}. Est-elle toujours disponible pour une visite ?`
   );
 
   // Clean WhatsApp phone number for link
@@ -202,7 +205,9 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
               {/* Financial Box */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4 bg-slate-50 p-4 rounded-2xl border border-slate-100">
                 <div>
-                  <span className="text-xs text-slate-500 font-medium">Loyer mensuel</span>
+                  <span className="text-xs text-slate-500 font-medium">
+                    {isRoommate ? 'Budget maximum souhaité' : 'Loyer mensuel'}
+                  </span>
                   <p className="text-2xl font-black text-slate-900">
                     {listing.price_amount.toLocaleString('fr-FR')} <span className="text-sm font-bold text-slate-600">DH/mois</span>
                   </p>
@@ -223,9 +228,11 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
                 </div>
 
                 <div className="col-span-2 sm:col-span-1">
-                  <span className="text-xs text-slate-500 font-medium">Dépôt de garantie (Caution)</span>
+                  <span className="text-xs text-slate-500 font-medium">
+                    {isRoommate ? 'Budget caution prévu' : 'Dépôt de garantie (Caution)'}
+                  </span>
                   <p className="text-sm font-bold text-slate-800 mt-1">
-                    {listing.deposit_amount.toLocaleString('fr-FR')} DH (1 mois)
+                    {listing.deposit_amount.toLocaleString('fr-FR')} DH
                   </p>
                 </div>
               </div>
@@ -426,7 +433,11 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
                     )}
                   </div>
                   <p className="text-xs text-slate-500">
-                    {listing.user.role === 'owner' ? 'Propriétaire Direct' : 'Colocataire occupant'}
+                    {listing.user.role === 'owner'
+                      ? 'Propriétaire Direct'
+                      : isRoommate
+                      ? 'En recherche de colocation'
+                      : 'Colocataire occupant'}
                   </p>
                 </div>
               </div>
@@ -442,7 +453,9 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
         {/* Sticky Mobile & Desktop Action Bar */}
         <div className="sticky bottom-0 z-30 bg-white/95 backdrop-blur-lg border-t border-slate-200 p-3 sm:px-6 flex items-center justify-between gap-3 shadow-lg">
           <div>
-            <span className="text-xs text-slate-500 font-medium block">Loyer mensuel</span>
+            <span className="text-xs text-slate-500 font-medium block">
+              {isRoommate ? 'Budget max' : 'Loyer mensuel'}
+            </span>
             <p className="text-lg sm:text-xl font-extrabold text-slate-900 leading-none">
               {listing.price_amount.toLocaleString('fr-FR')} <span className="text-xs font-bold text-slate-600">DH</span>
             </p>
@@ -457,7 +470,7 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
                 className="bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl shadow-md flex items-center gap-1.5 transition-all active:scale-95"
               >
                 <MessageCircle className="w-4 h-4 fill-white" />
-                <span>WhatsApp</span>
+                <span>{isRoommate ? `Contacter ${listing.user.full_name.split(' ')[0]}` : 'WhatsApp'}</span>
               </button>
             )}
 
